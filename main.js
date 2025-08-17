@@ -81,25 +81,29 @@ function playGame() {
         deck.splice(rndNum, 1);
     }
 
-    render(playerCards, dealerCards);
+    render(playerCards, dealerCards, true);
 }
 
-function render(playerCards, dealerCards) {
-    const display = document.querySelector(".game");
+function render(playerCards, dealerCards, hideFirstDealerCard) {
+    const playerCardsElement = document.querySelector(".playerCards");
+    const dealerCardsElement = document.querySelector(".dealerCards");
 
-    display.innerHTML += `<p>Player Cards: `;
+    playerCardsElement.innerHTML += `<p>Player Cards</p>`;
     for (card of playerCards) {
-        display.innerHTML += `<img src="icons/${card.suit}.png"> ${card.name} `;
+        playerCardsElement.innerHTML += `<p><img src="icons/${card.suit}.png"> ${card.name}</p>`;
     }
-    display.innerHTML += `(${getValue(playerCards)})`;
-    display.innerHTML += `</p>`;
 
-    display.innerHTML += `<p>Dealer Cards: `;
-    for (card of dealerCards) {
-        display.innerHTML += `<img src="icons/${card.suit}.png"> ${card.name} `;
+    dealerCardsElement.innerHTML += `<p>Dealer Cards</p>`;
+    if (hideFirstDealerCard) {
+        dealerCardsElement.innerHTML += `<p><img src="icons/cardback.png"> Hidden</p>`;
+        for (let i = 1; i < dealerCards.length; i++) {
+            dealerCardsElement.innerHTML += `<p><img src="icons/${dealerCards[i].suit}.png"> ${dealerCards[i].name}</p>`;
+        }
+    } else {
+        for (let i = 0; i < dealerCards.length; i++) {
+            dealerCardsElement.innerHTML += `<p><img src="icons/${dealerCards[i].suit}.png"> ${dealerCards[i].name}</p>`;
+        }
     }
-    display.innerHTML += `(${getValue(dealerCards)})`;
-    display.innerHTML += `</p>`;
 }
 
 playGame();

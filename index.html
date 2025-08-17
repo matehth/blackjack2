@@ -5,19 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
     <link rel="shortcut icon" href="icons/blackjackfilled.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/title.css">
+    <link rel="stylesheet" href="styles/gameAndRules.css">
     <script src="main.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="title">
         <div class="titleIcon">
-            <img src="icons/blackjack.png">
+            <img src="icons/blackjackfilled.png">
         </div>
         <div class="titleText">
             <p class="titleName">Blackjack</p>
-            <p class="titleAuthor">made by: matehth</p>
+            <p class="titleAuthor">made by: 
+                <a href="https://matehth.github.io/" target="_blank">matehth</a>
+            </p>
         </div>
     </div>
-    <div class="game"></div>
+    <div class="game">
+        <div class="playerCards"></div>
+        <div class="dealerCards"></div>
+    </div>
+    <div class="rules">
+        <p>Blackjack is a card game where the goal is to have a hand value closer to 21 than the dealer without going over 21.</p>
+    </div>
 </body>
 </html>
