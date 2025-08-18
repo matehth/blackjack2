@@ -26,8 +26,28 @@
         </div>
     </div>
     <div class="game">
-        <div class="playerCards"></div>
-        <div class="dealerCards"></div>
+        <div class="startGame">
+            <button onclick="playGame(deckSize.value)">Play</button>
+            <div>
+                <label for="deckSize">Deck size</label>
+                <select name="deckSize" id="deckSize">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4" selected="selected">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+        </div>
+        <div class="gameButtons"></div>
+        <div class="gameCards">
+            <div class="playerCards"></div>
+            <div class="dealerCards"></div>
+        </div>
+        <div class="result"></div>
     </div>
     <div class="rules">
         <p>Blackjack is a card game where the goal is to have a hand value closer to 21 than the dealer without going over 21.</p>

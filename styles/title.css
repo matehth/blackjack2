@@ -6,12 +6,8 @@
 
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 100px;
-
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
 
     border-bottom: 3px solid black;
 
@@ -20,23 +16,24 @@
 }
 
 .title img {
-    width: 100px;
+    height: 80px;
 }
 
 .titleText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-left: 10px;
 }
 
 .titleName {
-    font-size: 50px;
-    line-height: 50px;
+    font-size: 40px;
+    line-height: 40px;
     font-weight: 500;
-    margin-top: 11px;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .titleAuthor {
     font-size: 20px;
     line-height: 20px;
-    margin-bottom: 11px;
 }
