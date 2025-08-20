@@ -36,6 +36,12 @@
     justify-content: center;
 }
 
+.playAgain {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 .rules {
     position: fixed;
     bottom: 0;

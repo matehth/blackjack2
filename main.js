@@ -66,33 +66,36 @@ function getValue(cards) {
     return value;
 }
 
-function isGameOver(playerCards, dealerCards, stand) {
+function isGameOver(stand) {
     const playerValue = getValue(playerCards);
     const dealerValue = getValue(dealerCards);
 
-    if (stand) {
-        if (dealerValue < 17 && dealerValue < playerValue) return false;
-        else if (dealerValue == 21) return "dealerBlackjack";
-        else if (dealerValue > playerValue) return "dealerWin";
-        else if (playerValue > dealerValue) return "playerWin";
-    }
-    else {
-        if (playerValue < 21 && dealerValue < 21) return false;
-        else {
-            if (playerValue == 21 && dealerValue == 21) return "push";
-            else if (playerValue == 21) return "playerBlackjack";
-            else if (dealerValue == 21) return "dealerBlackjack";
-            else if (playerValue > 21) return "dealerWin";
-        }
-    }
+    if (stand) return !(dealerValue < 17 && dealerValue < playerValue);
+    else return !(playerValue < 21 && dealerValue < 21);
 }
 
-function renderCards(playerCards, dealerCards, hideFirstDealerCard) {
-    const startGameElement = document.querySelector(".startGame")
-    const playerCardsElement = document.querySelector(".playerCards");
-    const dealerCardsElement = document.querySelector(".dealerCards");
+function checkWinner() {
+    const playerValue = getValue(playerCards);
+    const dealerValue = getValue(dealerCards);
 
+    if (dealerValue == playerValue) return "Push!";
+    else if (playerValue == 21) return "Blackjack!";
+    else if (playerValue > 21) return "You Lose!";
+    else if (dealerValue > 21) return "You Win!";
+    else if (playerValue > dealerValue) return "You Win!";
+    else if (dealerValue > playerValue) return "You Lose!";
+}
+
+const startGameElement = document.querySelector(".startGame")
+const playerCardsElement = document.querySelector(".playerCards");
+const dealerCardsElement = document.querySelector(".dealerCards");
+const gameButtonsElement = document.querySelector(".gameButtons");
+const playAgainElement = document.querySelector(".playAgain");
+
+function renderCards(hideFirstDealerCard) {
     startGameElement.innerHTML = "";
+    playerCardsElement.innerHTML = "";
+    dealerCardsElement.innerHTML = "";
 
     playerCardsElement.innerHTML += `<p>Player Cards</p>`;
     for (card of playerCards) {
@@ -113,24 +116,24 @@ function renderCards(playerCards, dealerCards, hideFirstDealerCard) {
 }
 
 function renderButtons(splitPossible) {
-    const gameButtonsElement = document.querySelector(".gameButtons");
+    gameButtonsElement.innerHTML += "<button id='hitButton'>Hit</button><button id='standButton'>Stand</button><button id='doubleDownButton'>Double Down</button>";
 
-    gameButtonsElement.innerHTML += "<button class='hitButton'>Hit</button><button class='standButton'>Stand</button><button class='doubleDownButton'>Double Down</button>";
-
-    if (splitPossible) gameButtonsElement.innerHTML += "<button class='splitButton'>Split</button>";
+    if (splitPossible) gameButtonsElement.innerHTML += "<button id='splitButton'>Split</button>";
 }
 
 function renderWinner(result) {
-    const resultElement = document.querySelector(".result");
+    gameButtonsElement.innerHTML = "";
+    gameButtonsElement.innerHTML = `${result}`;
 
-    gameButtonsElement.innerHTML = ""
-    resultElement.innerHTML = `${result}`;
+    playAgainElement.innerHTML = "<a href='index.html'><button>Play Again</button></a>"
 }
 
+let deck = [];
+const playerCards = [];
+const dealerCards = [];
+
 function playGame(deckSize) {
-    const deck = createDeck(deckSize);
-    const playerCards = [];
-    const dealerCards = [];
+    deck = createDeck(deckSize);
 
     for (let i = 0; i < 2; i++) {
         let rndNum = pickRandomCard(deck.length);
@@ -142,24 +145,55 @@ function playGame(deckSize) {
         deck.splice(rndNum, 1);
     }
 
-    if (isGameOver(playerCards, dealerCards, false)) {
-        renderCards(playerCards, dealerCards, false);
-        renderWinner(isGameOver(playerCards, dealerCards, false));
+    if (isGameOver(false)) {
+        renderCards(false);
+        renderWinner(checkWinner());
     }
-    else renderCards(playerCards, dealerCards, true);
+    else renderCards(true);
     
     if (playerCards[0].name == playerCards[1].name) renderButtons(true);
     else renderButtons(false);
 
-    const hitButtonElement = document.querySelector(".hitButton");
-    const standButtonElement = document.querySelector(".standButton");
-    const doubleDownButtonElement = document.querySelector(".doubleDownButton");
-    const splitButtonElement = document.querySelector(".splitButton");
+    document.getElementById("hitButton").addEventListener("click", hit);
+    document.getElementById("standButton").addEventListener("click", stand);
+    document.getElementById("doubleDownButton").addEventListener("click", doubleDown);
+    document.getElementById("splitButton").addEventListener("click", split);
+}
 
-    while (!isGameOver(playerCards, dealerCards, false)) {
-        hitButtonElement.addEventListener("click", hit(playerCards, dealerCards));
-        standButtonElement.addEventListener("click", stand(playerCards, dealerCards));
-        doubleDownButtonElement.addEventListener("click", doubleDown(playerCards, dealerCards));
-        splitButtonElement.addEventListener("click", split(playerCards, dealerCards));
+function hit() {
+    let rndNum = pickRandomCard(deck.length);
+    playerCards.push(deck[rndNum]);
+    deck.splice(rndNum, 1);
+    renderCards(true);
+    if (isGameOver(false)) renderWinner(checkWinner());
+}
+
+function stand() {
+    if (isGameOver(true)) {
+        renderCards(false);
+        renderWinner(checkWinner())
+    } else {
+        while (!isGameOver(true)) {
+            rndNum = pickRandomCard(deck.length);
+            dealerCards.push(deck[rndNum]);
+            deck.splice(rndNum, 1);
+            renderCards(false)
+        }
+        renderWinner(checkWinner());
     }
+}
+
+function doubleDown() {
+    let rndNum = pickRandomCard(deck.length);
+    playerCards.push(deck[rndNum]);
+    deck.splice(rndNum, 1);
+    renderCards(true);
+    if (isGameOver(false)) {
+        renderCards(false);
+        renderWinner(checkWinner());
+    } else stand();
+}
+
+function split() {
+
 }
