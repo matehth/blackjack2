@@ -118,7 +118,7 @@ function renderCards(hideFirstDealerCard) {
 function renderButtons(splitPossible) {
     gameButtonsElement.innerHTML += "<button id='hitButton'>Hit</button><button id='standButton'>Stand</button><button id='doubleDownButton'>Double Down</button>";
 
-    if (splitPossible) gameButtonsElement.innerHTML += "<button id='splitButton'>Split</button>";
+    // if (splitPossible) gameButtonsElement.innerHTML += "<button id='splitButton'>Split</button>";
 }
 
 function renderWinner(result) {
@@ -157,7 +157,7 @@ function playGame(deckSize) {
     document.getElementById("hitButton").addEventListener("click", hit);
     document.getElementById("standButton").addEventListener("click", stand);
     document.getElementById("doubleDownButton").addEventListener("click", doubleDown);
-    document.getElementById("splitButton").addEventListener("click", split);
+    // document.getElementById("splitButton").addEventListener("click", split);
 }
 
 function hit() {
@@ -194,6 +194,8 @@ function doubleDown() {
     } else stand();
 }
 
+/*
 function split() {
 
 }
+*/
